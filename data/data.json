@@ -1,38 +1,110 @@
-{
+[
     {
         "category": "real estate",
-        "name": "",
-        "description": "",
-        "link": "",
-        "difficulty": "",
-        "type": "",
-        "tags": []
+        "name": "Real Estate",
+        "description": "Real estate is a good investment if you are a good investor.",
+        "link": "hold.realestate",
+        "difficulty": "Medium",
+        "type": "blog",
+        "tags": ["rent", "flip"]
+    },
+    {
+        "category": "real estate",
+        "name": "Real Estate Strategy",
+        "description": "Multiple stream of income with real estate",
+        "link": "millions.realestate",
+        "difficulty": "Hard",
+        "type": "forum",
+        "tags": ["foreclosure", "reit", "probate"]
+    },
+    {
+        "category": "real estate",
+        "name": "Idiot Proof Real Estate",
+        "description": "Everyone should own real estate and we'll show you how.",
+        "link": "easy.realestate",
+        "difficulty": "Easy",
+        "type": "video blog",
+        "tags": ["mls", "realtor"]
     },
     {
         "category": "web development",
-        "name": "",
-        "description": "",
-        "link": "",
-        "difficulty": "",
-        "type": "",
-        "tags": []
+        "name": "Web Development",
+        "description": "Boosting your intermediate skills to the next level... intermediate plus.",
+        "link": "intermediateplus.webdevelopment",
+        "difficulty": "Medium",
+        "type": "blog",
+        "tags": ["algorithms"]
+    },
+    {
+        "category": "web development",
+        "name": "Web Development Experts",
+        "description": "We are the web.",
+        "link": "advanced.webdevelopment",
+        "difficulty": "Hard",
+        "type": "specifications",
+        "tags": ["applications", "full stack", "infastructure"]
+    },
+    {
+        "category": "web development",
+        "name": "Web Development for Anyone (who tries)",
+        "description": "You can develop websites too and we'll teach you how.",
+        "link": "beginner.webdevelopment",
+        "difficulty": "Easy",
+        "type": "live exercises",
+        "tags": ["syntax", "hello world"]
     },
     {
         "category": "poker",
-        "name": "",
-        "description": "",
-        "link": "",
-        "difficulty": "",
-        "type": "",
-        "tags": []
+        "name": "Poker",
+        "description": "The \"I'm decent at poker.  Get better!, club.\"",
+        "link": "poker.poker",
+        "difficulty": "Medium",
+        "type": "blog",
+        "tags": ["poker"]
+    },
+    {
+        "category": "poker",
+        "name": "Poker Hard",
+        "description": "Elite player in the room",
+        "link": "hard.poker",
+        "difficulty": "Hard",
+        "type": "ecommerce",
+        "tags": ["poker", "elite", "best"]
+    },
+    {
+        "category": "poker",
+        "name": "Poker Easy",
+        "description": "Noobs its fun here, but you need to win sometimes.",
+        "link": "noobs.poker",
+        "difficulty": "Easy",
+        "type": "forum",
+        "tags": ["poker", "learning", "how-to"]
     },
     {
         "category": "travel",
-        "name": "",
-        "description": "",
-        "link": "",
-        "difficulty": "",
-        "type": "",
-        "tags": []
+        "name": "Travel Easy",
+        "description": "Easily travel with Travel Easy.",
+        "link": "easy.travel",
+        "difficulty": "Easy",
+        "type": "full service",
+        "tags": ["travel", "luxury"]
+    },
+    {
+        "category": "travel",
+        "name": "Travel Hard",
+        "description": "Easily travel with Travel Hard.",
+        "link": "hard.travel",
+        "difficulty": "Hard",
+        "type": "blog",
+        "tags": ["travel", "discount", "how-to"]
+    },
+    {
+        "category": "travel",
+        "name": "Travel",
+        "description": "Travel with Travel There.",
+        "link": "travel.travel",
+        "difficulty": "Medium",
+        "type": "video blog",
+        "tags": ["travel"]
     }
-}
+]

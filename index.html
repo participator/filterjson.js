@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>filterjson.js Example</title>
+    <script src="js/filter.js" type="application/javascript"></script>
+    <script id="data" src="data/data.json" type="text/javascript"></script>
+    <script>
+        const data = document.getElementById('data');
+    </script>
 </head>
 <body>
     <header>
         <h1>filterjson.js</h1>
-        <p>Filter json easily with this JavaScript library</p>
+        <p>Filtering json easily with this JavaScript library</p>
     </header>
     <main>
         <section>
@@ -19,7 +24,7 @@
                     <button data-selected="false">All</button>
                     <button data-selected="false">Easy</button>
                     <button data-selected="false">Medium</button>
-                    <button data-selected="false">Difficult</button>
+                    <button data-selected="false">Hard</button>
                 </fieldset>                
                 <fieldset>
                     <p>Click category to see matching data</p>
@@ -34,6 +39,7 @@
                 </fieldset>
             </form>
         </section>
+        <article class="data"></article>
     </main>
     <footer>
 

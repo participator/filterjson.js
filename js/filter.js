@@ -6,12 +6,12 @@
     window.Filter = exports;
 
     // Dependencies
-    const resources = window.MobileHub.Resources;
-    const categories = window.MobileHub.Categories;
-    const properties = window.MobileHub.Properties;
+    const resources = window.Filter.Resources;
+    const categories = window.Filter.Categories;
+    const properties = window.Filter.Properties;
 //{property = 'difficulty', text = ['Beginner', 'Intermediate, Advanced']}
     const _filter = {
-        allCategories: categories.getCategories(),
+        allCategories: [], // categories.getCategories(),
         setFilterCriteria({categories = undefined, propertyText = [{property: 'difficulty', text:'Beginner'}]} = {}) {
             this.categories = categories;
             this.propertyText = propertyText;
