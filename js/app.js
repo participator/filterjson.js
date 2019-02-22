@@ -14,44 +14,12 @@
 		// displayDataAll();
 	};
 
-	/*
-	These are HTML strings. JavaScript functions 
-	replace the %data% placeholder text you see in them.
+	/** Create FilterCriteria for filter
+	* @param {string[]} categories
+	* @param {string[]} difficultites
+	* @param {string[]} terms
+	* @returns {object filterCriteria}
 	*/
-
-	// Img and intro to each category
-	const categoryDetails = '<h1 class = "categoryName">%title%</h1><p class="intro header-content">%intro%</p>';
-
-	// Create list with content
-	const listResourceItem = document.createElement('li');
-	listResourceItem.classList.add('category-content__item');
-
-	const resourcesContent = '<p><a href="%link%" target="_blank"><span class="text-content"><span>%title%</span></span></a><p>%description%</p></p>';
-	const resourcesContent = document.createElement('p');
-	const anchor = document.createElement('a');
-	anchor.setAttribute('href', 'link');
-	anchor.setAttribute('target', '_blank');
-	resourcesContent.appendChild(anchor);
-
-	// Display given resource in UI
-	function parseFilteredResource(name, resource) {
-		$('.articleList .' + name).removeClass('hidden');
-		$(".articleList ." + name).append(listedResources);
-		//Match %data% with object
-		const replaceChars={ "%link%": resource.link, "%title%": resource.title, "%description%": resource.description };
-		//Replace %data% with object informtaion
-		const formattedContent = resourcesContent.replace(/%link%|%title%|%description%/g,
-			function(match) {
-				return replaceChars[match];
-			});
-		$(".articleList ." + name + " li:last").append(formattedContent);
-	}
-
-	// Create FilterCriteria for filter
-	// @param {string[]} categories
-	// @param {string[]} difficultites
-	// @param {string[]} terms
-	// @returns 
 	function createFilterCriteria(categories, difficulties, terms) {
 		const filterCriteriaConstructor = {
 			create(categories, propertyText) {

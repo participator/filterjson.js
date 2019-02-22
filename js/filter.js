@@ -10,61 +10,74 @@
     const categories = window.Filter.Categories;
     const properties = window.Filter.Properties;
 //{property = 'difficulty', text = ['Beginner', 'Intermediate, Advanced']}
-    const _filter = {
-        allCategories: [], // categories.getCategories(),
-        setFilterCriteria({categories = undefined, propertyText = [{property: 'difficulty', text:'Beginner'}]} = {}) {
+    const _filter = {};
+    _filter.allCategories = []; // categories.getCategories(),
+
+    /**
+     * Allows user to set the filter conditions
+     * @param {undefined | string | object Array} categories
+     * @param {undefined | object PropertyText} propertyText
+     * @returns undefined
+     */
+    _filter.setFilterCriteria = function setFilterCriteria({categories = undefined, 
+        propertyText = [{property: 'difficulty', text:'Beginner'}]} = {}) {
             this.categories = categories;
             this.propertyText = propertyText;
             this.allTextsHaveValue = this.propertyText.every(function(pt) {
-                return (typeof pt.text == 'string' && !!pt.text.trim() && !Array.isArray(pt.text)) 
-                || (Array.isArray(pt.text) && pt.text.length);
+                return (typeof pt.text == 'string' && pt.text.trim().length > 0) 
+                || (Array.isArray(pt.text) && pt.text.length > 0 && pt.text.filter((value) => {
+                    return typeof value === 'string' && value.trim().length > 0
+                }).length > 0);
             });
-        },
-        // Returns the filtered data
-        getFilteredResults() {
-            var matchedResources = [];
-            // Topics ex: CSS, JS, HTML, etc
-
-            // if no text value provided 
-            // return all resources in the category provided
-            // if no category provided and no text value
-            // return all resources
-            if (!this.allTextsHaveValue) {
-                if (Array.isArray(this.categories) && this.categories.length) {
-                    for (var cIndex=0; cIndex < this.categories.length; cIndex++) {
-                        matchedResources.push(...addCategoryToResource(resources[this.categories[cIndex]], this.categories[cIndex]));
-                    }
+        };
+        
+    /**
+    * Returns the filtered data
+    * @returns {object Array} matchedResources
+    */
+   _filter.getFilteredResults = function getFilteredResults() {
+       var matchedResources = [];
+        // Topics ex: CSS, JS, HTML, et 
+        // if no text value provided 
+        // return all resources in the category provided
+        // if no category provided and no text value
+        // return all resources
+        if (!this.allTextsHaveValue) {
+            if (Array.isArray(this.categories) && this.categories.length > 0) {
+                for (var cIndex=0; cIndex < this.categories.length; cIndex++) {
+                    matchedResources.push(...resources[this.categories[cIndex]]);
                 }
-                else if (typeof this.categories === 'string' && this.categories.trim) {
-                    matchedResources.push(...addCategoryToResource(resources[this.categories], this.categories));
-                }
-                else {
-                    for ( var category in resources) {
-                        matchedResources.push(...addCategoryToResource(resources[category], category));
-                    }                    
-                }
-                // debugging purposes
-                console.table(matchedResources);
-                return matchedResources;
             }
-
+            else if (typeof this.categories === 'string' && this.categories.trim.length > 0) {
+                matchedResources.push(...resources[this.categories]);
+            }
+            else {
+                for ( var category in resources) {
+                    matchedResources.push(...resources[category]);
+                }                    
+            }
+            // debugging purposes
+            // console.table(matchedResources);
+            // return matchedResources;
+        
             matchedResources.push(..._getResourceCategory(resources, this.categories, this.propertyText));
-
             // debugging purposes
             console.table(matchedResources);
             return matchedResources;
-        },
-    }
-
+        }
+    };
     
-    // Return a searches a specific category of resources if provided
-    // If no category is provided, searches all categories
-    // @params {array, string|array, array}
-    // @returns {array} matching resources
+    /** Return a searches a specific category of resources if provided
+    * If no category is provided, searches all categories
+    * @param {array} allResources
+    * @param {string|array} resourceCategory
+    * @param {object Array} propertyText
+    * @returns {array} matching resources
+    */ 
     function _getResourceCategory(allResources, resourceCategory, propertyText) {
         var resourcesMatching = [];
         // search only provided Categories
-        if (Array.isArray(resourceCategory) && resourceCategory.length) {
+        if (Array.isArray(resourceCategory) && resourceCategory.length > 0) {
             for (var i in resourceCategory) {
                 resourcesMatching.push(..._getResource(resourceCategory[i], allResources[resourceCategory[i]], propertyText));                
             }
@@ -91,9 +104,12 @@
         return [... new Set(resourcesMatching)];
     }
 
-    // Search a resource
-    // @params {string, array, propertyText} resources, propertyText
-    // @returns {array} matching resources
+    /** Search a resource
+    * @params {string} category
+    * @param {object Array} resourcesForOneCategory
+    * @param {object propertyText} propertyText
+    * @returns {array} matching resources
+    */
     function _getResource(category, resourcesForOneCategory, propertyText) {
         var resourcesMatching = [];
         for (var i=0; i < resourcesForOneCategory.length; i++) {
@@ -106,10 +122,14 @@
         return resourcesMatching;
     }
 
-    // Searches if a property matches a given property
-    // If no propertyToMatch is provided, searches all properties
-    // @params {object, string, string}
-    // @returns {object} resource with a property that matches text
+    /** Searches if a property matches a given property
+    * If no propertyToMatch is provided, searches all properties
+    * @param {string} category
+    * @param {object Object} resource
+    * @param {string} property
+    * @param {string} propertyTextToMatch
+    * @returns {object} resource with a property that matches text
+    */
     function _getPropertyMatch(category, resource, property, propertyTextToMatch) {
         if (!propertyTextToMatch.property || 
             (property === propertyTextToMatch.property && properties.getProperties(true).includes(propertyTextToMatch.property))) {
@@ -117,9 +137,13 @@
         }
     }
 
-    // Search if match of text is found in resource property
-    // @params {object, string, string}
-    // @returns {object} resource with a property that matches text
+    /** Search if match of text is found in resource property
+    * @param {string} category
+    * @param {object} resource
+    * @param {string} matchedProperty
+    * @param {string} textToMatch
+    * @returns {object} resource a resource that has a property that matches textToMatch
+    */ 
     function _getPropertyTextInResource(category, resource, matchedProperty, textToMatch) {
         // check for both string case
         if (typeof textToMatch === 'string') {
@@ -159,13 +183,6 @@
             }
         }
         return null; // no match
-    }
-    
-    // Add category to resource when there is no {property, text} defined
-    // @params {resources, category} 
-    function addCategoryToResource(resources, category) {
-        resources.forEach(resource => resource.category = category);
-        return resources;
     }
 
     exports.filter = Object.create(_filter);
