@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>filterjson.js Example</title>
+    <link href="styles/style.css" type="text/css" rel="stylesheet">
     <script src="js/filter.js" type="application/javascript"></script>
     <script id="data" src="data/data.json" type="text/javascript"></script>
     <script>
@@ -14,28 +15,29 @@
 <body>
     <header>
         <h1>filterjson.js</h1>
-        <p>Filtering json easily with this JavaScript library</p>
+        <p>Filter json easily with this JavaScript library</p>
     </header>
     <main>
         <section>
             <form>
                 <fieldset>
-                    <p>Click difficulty to see matching data</p>
-                    <button data-selected="false">All</button>
-                    <button data-selected="false">Easy</button>
-                    <button data-selected="false">Medium</button>
-                    <button data-selected="false">Hard</button>
+                    <legend>Click difficulty to see matching data</legend>
+                    <button data-difficulty="false">All</button>
+                    <button data-difficulty="false">Easy</button>
+                    <button data-difficulty="false">Medium</button>
+                    <button data-difficulty="false">Hard</button>
                 </fieldset>                
                 <fieldset>
-                    <p>Click category to see matching data</p>
-                    <button data-selected="false">Web Development</button>
-                    <button data-selected="false">Real Estate</button>
-                    <button data-selected="false">Poker</button>
-                    <button data-selected="false">Travel</button>
+                    <legend>Click category to see matching data</legend>
+                    <button data-category="false">Web Development</button>
+                    <button data-category="false">Real Estate</button>
+                    <button data-category="false">Poker</button>
+                    <button data-category="false">Travel</button>
                 </fieldset>                
                 <fieldset>
-                    <p>Enter search details to see matching data</p>
+                    <legend>Enter search details to see matching data</legend>
                     <input type="search">
+                    <input type="submit">
                 </fieldset>
             </form>
         </section>

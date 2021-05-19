@@ -6,66 +6,78 @@
     window.Filter = exports;
 
     // Dependencies
-    const resources = window.Filter.Resources;
-    const categories = window.Filter.Categories;
-    const properties = window.Filter.Properties;
-//{property = 'difficulty', text = ['Beginner', 'Intermediate, Advanced']}
     const _filter = {};
-    _filter.allCategories = []; // categories.getCategories(),
 
     /**
      * Allows user to set the filter conditions
-     * @param {undefined | string | object Array} categories
-     * @param {undefined | object PropertyText} propertyText
+     * @param { object[] } propertyValue
      * @returns undefined
      */
-    _filter.setFilterCriteria = function setFilterCriteria({categories = undefined, 
-        propertyText = [{property: 'difficulty', text:'Beginner'}]} = {}) {
-            this.categories = categories;
-            this.propertyText = propertyText;
-            this.allTextsHaveValue = this.propertyText.every(function(pt) {
-                return (typeof pt.text == 'string' && pt.text.trim().length > 0) 
-                || (Array.isArray(pt.text) && pt.text.length > 0 && pt.text.filter((value) => {
-                    return typeof value === 'string' && value.trim().length > 0
-                }).length > 0);
-            });
-        };
+    _filter.setFilterCriteria = function setFilterCriteria(filterCriterias = [{property: undefined, value: undefined}]) {
+        this.filterCriterias = filterCriterias;
+        this.allPropertiesHaveValue = checkAllfilterCriteriasPropertiesHaveValue(this.filterCriterias);
+    }
+
+    function checkAllfilterCriteriasPropertiesHaveValue(propertyValues) {
+        return propertyValues.every(function(propertyValue) {
+            const stringHasValue = stringPropertyHasValue(propertyValue.value);
+            const arrayHasValue = arrayPropertyHasValue(propertyValue.value);
+
+            return stringHasValue || arrayHasValue;
+        });
+    }
+
+    function stringPropertyHasValue(stringValue) {
+        return typeof stringValue === 'string' && stringValue.trim().length > 0;
+    }
+
+    function arrayPropertyHasValue(arrayValue) {
+        return Array.isArray(arrayValue) && 
+        arrayValue.length > 0 &&
+        arrayValue.filter((value) => {
+            return typeof value === 'string' && value.trim().length > 0
+        }).length > 0;
+    }
         
     /**
     * Returns the filtered data
     * @returns {object Array} matchedResources
     */
-   _filter.getFilteredResults = function getFilteredResults() {
-       var matchedResources = [];
-        // Topics ex: CSS, JS, HTML, et 
-        // if no text value provided 
-        // return all resources in the category provided
-        // if no category provided and no text value
-        // return all resources
-        if (!this.allTextsHaveValue) {
-            if (Array.isArray(this.categories) && this.categories.length > 0) {
-                for (var cIndex=0; cIndex < this.categories.length; cIndex++) {
-                    matchedResources.push(...resources[this.categories[cIndex]]);
-                }
-            }
-            else if (typeof this.categories === 'string' && this.categories.trim.length > 0) {
-                matchedResources.push(...resources[this.categories]);
-            }
-            else {
-                for ( var category in resources) {
-                    matchedResources.push(...resources[category]);
-                }                    
-            }
-            // debugging purposes
-            // console.table(matchedResources);
-            // return matchedResources;
-        
-            matchedResources.push(..._getResourceCategory(resources, this.categories, this.propertyText));
-            // debugging purposes
-            console.table(matchedResources);
-            return matchedResources;
-        }
+   _filter.getFilteredResults = function getFilteredResults(data) {
+       let matchedResources = [];
+
+       if (!Array.isArray(data)) throw new Error('Provide data as an Array');
+
+       data.forEach(resource => {
+           if (_checkResourceForMatch(resource)) {
+               matchedResources.push(resource);
+           }
+       })
+
+       return matchedResources;
     };
+
+    function _checkResourceForMatch(resource) {
+        return _filter.filterCriterias.some(filterCriteria => {
+            return resourceValuetype(filterCriteria, resource);
+        })
+    }
+
+    function resourceValuetype(filterCriteria, resource) {
+        const valueType = {
+            string: resource[filterCriteria.property] === filterCriteria.value,
+            object: (function() {
+                const value = resource[filterCriteria.property];
+                if (Array.isArray(value) && value.length > 0 ) {
+                    value.forEach(subResource => {
+                        return _checkResourceForMatch(subResource);
+                    })
+                }
+            })(),
+        };
+
+        return valueType[typeof resource[filterCriteria.property]];
+    }
     
     /** Return a searches a specific category of resources if provided
     * If no category is provided, searches all categories
@@ -113,9 +125,9 @@
     function _getResource(category, resourcesForOneCategory, propertyText) {
         var resourcesMatching = [];
         for (var i=0; i < resourcesForOneCategory.length; i++) {
-            for (var ptIndex=0; ptIndex < propertyText.length; ptIndex++) {
+            for (var propertyTextIndex=0; propertyTextIndex < propertyText.length; propertyTextIndex++) {
                 for (var resourceProperty in resourcesForOneCategory[i]) {
-                    resourcesMatching.push(_getPropertyMatch(category, resourcesForOneCategory[i], resourceProperty, propertyText[ptIndex]));
+                    resourcesMatching.push(_getPropertyMatch(category, resourcesForOneCategory[i], resourceProperty, propertyText[propertyTextIndex]));
                 }
             }
         }
